@@ -1,3 +1,5 @@
+<img width="272" height="704" alt="Gemini_Generated_Image_puupfvpuupfvpuup" src="https://github.com/user-attachments/assets/09c356a6-b8aa-4107-a0e6-21331fa54b8a" />
+
 # LuckywareReverse
 
 **Advanced Technical Analysis and Automated Removal Suite for the Luckyware RAT**
