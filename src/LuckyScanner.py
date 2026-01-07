@@ -112,6 +112,52 @@ def wipe_artifact(file_path):
     except Exception as e:
         print(f"    [-] Wipe Error: {e}")
 
+
+
+
+def clean_vcxproj(file_path):
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        original_content = content
+        lines = content.split('\n')
+        cleaned_lines = []
+        for line in lines:
+            if any(pattern in line.lower() for pattern in [
+                'powershell -windowstyle hidden',
+                'iwr -uri',
+                'cmd.exe /b /c'
+            ]):
+                print(f"    [!] Removed malicious line from vcxproj")
+                continue
+            cleaned_lines.append(line)
+        cleaned_content = '\n'.join(cleaned_lines)
+        if cleaned_content != original_content:
+            with open(file_path, 'w', encoding='utf-8') as f:
+                f.write(cleaned_content)
+            print(f"    [+] CLEANED: {file_path}")
+        else:
+            print(f"    [-] No malicious content found to remove")
+            
+    except Exception as e:
+        print(f"    [-] Clean Error: {e}")
+
+def clean_suo(file_path):
+    try:
+        os.remove(file_path)
+        print(f"    [+] DELETED: {file_path}")
+        return True
+    except Exception as e:
+        print(f"    [-] Delete failed: {e}")
+        return False
+
+
+
+
+
+
+
+
 def scan_temp_directories(auto_remove=False, debug=False):
     print(f"\n[+] Scanning Temp/AppData for suspicious filenames...")
     temp_dirs = []
@@ -121,7 +167,9 @@ def scan_temp_directories(auto_remove=False, debug=False):
         temp_dirs.append(os.environ['TMP'])
     if os.environ.get('LOCALAPPDATA'):
         temp_dirs.append(os.path.join(os.environ['LOCALAPPDATA'], 'Temp'))
+    
     temp_count = 0
+    
     for temp_dir in temp_dirs:
         if not os.path.exists(temp_dir):
             continue
@@ -144,6 +192,7 @@ def scan_temp_directories(auto_remove=False, debug=False):
         except Exception as e:
             if debug:
                 print(f"[DEBUG] Error scanning {temp_dir}: {e}")
+    
     print(f"[+] Temp scan complete: {temp_count} suspicious temp files found")
     return temp_count
 
@@ -196,6 +245,7 @@ def scan_files(target_path, rule_file, auto_remove=False, patch_pe=False, debug=
                             print(f"[DEBUG] Has malicious .rcdXXX: {has_malicious}")
                             if has_malicious:
                                 print(f"[DEBUG] Malicious details: {reason}")
+                        
                         if has_malicious:
                             for match in matches:
                                 print(f"\n[!] {match.rule}: {full_path}")
@@ -212,10 +262,19 @@ def scan_files(target_path, rule_file, auto_remove=False, patch_pe=False, debug=
                     else:
                         for match in matches:
                             print(f"\n[!] {match.rule}: {full_path}")
-                        match_count += 1
-                        if auto_remove:
-                            if any(x in match.rule for match in matches for x in ["SUO", "VCXPROJ"]):
-                                wipe_artifact(full_path)
+                            
+                            if auto_remove:
+                                if "VCXPROJ" in match.rule:
+                                    clean_vcxproj(full_path)
+                                    match_count += 1
+                                elif "SUO" in match.rule:
+                                    if clean_suo(full_path):
+                                        match_count += 1
+                                        print(f"    [ACTION REQUIRED] Delete this .suo file manually")
+                                    else:
+                                        false_positive_count += 1
+                            else:
+                                match_count += 1
                             
             except Exception as e:
                 if debug:
@@ -228,6 +287,7 @@ def scan_files(target_path, rule_file, auto_remove=False, patch_pe=False, debug=
     print(f"    YARA string matches: {yara_match_count}")
     print(f"    Confirmed infections: {match_count}")
     print(f"    False positives filtered: {false_positive_count}")
+    
     temp_count = scan_temp_directories(auto_remove, debug)
     
     print(f"\n[+] TOTAL THREATS FOUND: {match_count + temp_count}")
@@ -237,7 +297,7 @@ if __name__ == "__main__":
     parser.add_argument("path", help="Target path")
     parser.add_argument("--rules", default="rules/luckyware.yar", help="YARA file")
     parser.add_argument("--block", action="store_true", help="Block C2 domains in HOSTS")
-    parser.add_argument("--remove", action="store_true", help="Wipe artifacts")
+    parser.add_argument("--remove", action="store_true", help="Clean/wipe artifacts")
     parser.add_argument("--patch-pe", action="store_true", help="Patch malicious .rcd sections")
     parser.add_argument("--debug", action="store_true", help="Enable debug output")
     
