@@ -37,12 +37,12 @@ rule Luckyware_PE_Infection
         severity = "Critical"
         actor_type = "LUCKYWARE"
 
+    strings:
+        $mz = { 4D 5A }
+        $rcd = ".rcd" ascii
+        
     condition:
-        uint16(0) == 0x5A4D and 
-        any i in (0 .. pe.number_of_sections - 1) : (
-            pe.sections[i].name matches /^\.rcd/ and
-            (pe.sections[i].characteristics & 0x20000000) // IMAGE_SCN_MEM_EXECUTE
-        )
+        $mz at 0 and $rcd
 }
 
 rule Luckyware_SUO_Replacement
@@ -61,7 +61,7 @@ rule Luckyware_SUO_Replacement
         $xor_key = "NtExploreProcess"
 
     condition:
-        filepath matches /.*\\.vs\\.*\.suo$/ and $xor_key
+        $magic_header and $xor_key
 }
 
 rule Luckyware_VCXPROJ_Infection
@@ -88,10 +88,7 @@ rule Luckyware_VCXPROJ_Infection
         $cmd_shell = "cmd.exe /b /c" nocase
 
     condition:
-        filename matches /.*\.vcxproj$/ and
-        $ps_hidden and
-        $iwr and
-        $cmd_shell
+        $ps_hidden and $iwr and $cmd_shell
 }
 
 
