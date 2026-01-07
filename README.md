@@ -20,16 +20,15 @@ A professional-grade toolkit designed to detect, flag, and neutralize Luckyware 
 
 To fully purge this malware from your system, follow these steps:
 
-1. **Block Network Communication:** Immediately block all C2 domains identified in the `rules/luckyware.yar` file. 
-   * **Hosts File:** Redirect all identified domains to `0.0.0.0` in your Windows hosts file (`C:\Windows\System32\drivers\etc\hosts`) to prevent the loader from fetching payloads.
-   * **Firewall:** Use third-party firewall software to block these addresses.
+1. **Block Network Communication:** Use the `--block` flag with the scanner to automatically sync YARA-extracted domains to your Windows hosts file (`C:\Windows\System32\drivers\etc\hosts`). This prevents the loader from fetching further payloads.
+   
+2. **Run Scanner & Neutralize:** Execute `src/LuckyScanner.py` to identify artifacts.
+   * Use `--remove` to wipe malicious .suo, .vcxproj, and temp files with null bytes.
+   * Use `--patch-pe` to flip the Execute bits of malicious sections to 0. This disables the RAT's entry point without destroying the file structure.
 
-2. **Run Scanner:** Execute `src/LuckyScanner.py` to identify all infected artifacts, including SDK poisoning, malicious .suo files, and compromised project files.
-
-3. **Bitdefender Clean:** Use **Bitdefender Ultimate** (the 30-day trial is sufficient). 
-   * **Requirement:** You must enable **all protection options** (Advanced Threat Control, Scan Execute, etc.). 
-   * This is necessary to successfully strip and remove the PE-based malware sections from infected executables that have been backdoored.
-
+3. **Bitdefender Clean:** Finally, run a scan with **Bitdefender Ultimate** (30-day trial works).
+   * **Requirement:** Enable **all protection options** (Advanced Threat Control, Scan Execute, etc.).
+   * Bitdefender will identify the neutralized/patched PE files and safely strip the malicious segments.
 
 ## Features
 
@@ -40,7 +39,7 @@ To fully purge this malware from your system, follow these steps:
 | SDK Integrity Check | Scans Windows Kits for the VccLibaries backdoor |
 | SUO/VXPROJ Cleaner | Identifies and wipes malicious VS project hacks |
 | YARA Integration | Full ruleset for C2 domains and XOR indicators |
-| Automated Quarantine | Safely isolates infected artifacts for analysis |
+| Automatic Blocking | Updates system hosts file directly from YARA rules |
 
 ## Technical Insights
 
@@ -55,13 +54,13 @@ This project is the result of deep reverse engineering of the Luckyware leak. Ke
 python LuckyScanner.py <target_path> [options]
 ```
 
-
 | Option | Description |
 | --- | --- |
-| -d, --drive | Target drive or folder to scan (e.g., D:) |
-| --yara | Run full YARA ruleset against memory and files |
-| --clean-vs | Force-delete all .vs folders and .suo files |
-| --verbose | Show detailed PE header offsets during scan |
+| <path> | Target drive or folder to scan (e.g., C:\ or D:) |
+| --rules | Path to the luckyware.yar file (Default: rules/luckyware.yar) |
+| --block | Automatically sync YARA domains to Windows HOSTS file |
+| --remove | OPTIONAL: Wipe infected Temp/SUO/VCXPROJ files with null bytes |
+| --patch-pe | OPTIONAL: Flip Execute bits on malicious PE sections to 0 |
 
 ## Safety Warning and Disclaimer
 
