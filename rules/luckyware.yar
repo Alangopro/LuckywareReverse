@@ -5,33 +5,29 @@
 // the malw also creates random temp files with short 2-3 chracter startings the rest is current timestamp
 // the timestamp is fetched from chrono::system_clock::now() function using milliseconds.
 
-
-rule Luckyware_TempFile_Detection
-{
-    meta:
-        description = "Detects Luckyware in AppData and Temp"
-        author = "Kamerzystanasyt"
-        date = "2026-01-07"
-        category = "RAT"
-        severity = "Critical"
-        actor_type = "LUCKYWARE"
-        reference = "https://github.com/Emree1337/Luckyware/blob/main/LuckywareCode/InfDLL/TheDLL.cpp#L59"
-
-    strings:
-        $c1 = "chrono" nocase
-        $c2 = "system_clock" nocase
-        $c3 = "now" nocase
-        $c4 = "milliseconds" nocase
-        $temp_naming = /\b[A-Z]{2,3}[0-9]{10,13}(\.exe)?/
-
-    condition:
-        $temp_naming and 3 of ($c*)
-}
+// fuck yara idk how to make it not detect false shit
+//rule Luckyware_TempFile_Detection
+//{
+//    meta:
+//        description = "Detects Luckyware in AppData and Temp"
+//        author = "Kamerzystanasyt"
+//        date = "2026-01-07"
+//        category = "RAT"
+//        severity = "Critical"
+//        actor_type = "LUCKYWARE"
+//        reference = "https://github.com/Emree1337/Luckyware/blob/main/LuckywareCode/InfDLL/TheDLL.cpp#L59"
+//
+//    strings:
+//        $temp_naming = /\b[A-Z]{2,3}[0-9]{10,13}(\.exe)?/
+//
+//    condition:
+//        $temp_naming
+//}
 
 rule Luckyware_PE_Infection
 {
     meta:
-        description = "Detects Luckyware PE infection via appended executable .rcdata section"
+        description = "Detects Luckyware PE infection via appended executable in .rcdata section"
         author = "Kamerzystanasyt"
         category = "RAT"
         severity = "Critical"
@@ -39,11 +35,20 @@ rule Luckyware_PE_Infection
 
     strings:
         $mz = { 4D 5A }
-        $rcd = ".rcd" ascii
+        $rcd = ".rcdata" ascii
+        $xor_key = "NtExploreProcess" ascii
+        $pe_header = { 50 45 00 00 }
         
     condition:
-        $mz at 0 and $rcd
+        $mz at 0 and 
+        $rcd and 
+        (
+            $xor_key or
+            (#mz > 1) or
+            ($pe_header and @pe_header > 0x1000)
+        )
 }
+
 
 rule Luckyware_SUO_Replacement
 {
