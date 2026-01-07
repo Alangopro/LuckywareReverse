@@ -1,0 +1,3 @@
+[submodule "source/luckyware_src"]
+	path = source/luckyware_src
+	url = https://github.com/Emree1337/Luckyware.git
