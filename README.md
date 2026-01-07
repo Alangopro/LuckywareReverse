@@ -16,6 +16,21 @@ A professional-grade toolkit designed to detect, flag, and neutralize Luckyware 
 [![YouTube](https://img.shields.io/badge/YouTube-%23FF0000.svg?style=for-the-badge&logo=YouTube&logoColor=white)](https://feds.lol/Kamerzystanasyt)
 [![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://feds.lol/Kamerzystanasyt)
 
+## Removal Instructions
+
+To fully purge this malware from your system, follow these steps:
+
+1. **Block Network Communication:** Immediately block all C2 domains identified in the `rules/luckyware.yar` file. 
+   * **Hosts File:** Redirect all identified domains to `0.0.0.0` in your Windows hosts file (`C:\Windows\System32\drivers\etc\hosts`) to prevent the loader from fetching payloads.
+   * **Firewall:** Use third-party firewall software to block these addresses.
+
+2. **Run Scanner:** Execute `src/LuckyScanner.py` to identify all infected artifacts, including SDK poisoning, malicious .suo files, and compromised project files.
+
+3. **Bitdefender Clean:** Use **Bitdefender Ultimate** (the 30-day trial is sufficient). 
+   * **Requirement:** You must enable **all protection options** (Advanced Threat Control, Scan Execute, etc.). 
+   * This is necessary to successfully strip and remove the PE-based malware sections from infected executables that have been backdoored.
+
+
 ## Features
 
 | Feature | Description |
