@@ -24,6 +24,29 @@
 //        $temp_naming
 //}
 
+
+rule Luckyware_Generic_Behavior
+{
+    meta:
+        description = "Detects generic malicious execution patterns used by Luckyware"
+        author = "Kamerzystanasyt"
+        category = "GENERIC"
+        severity = "Critical"
+        actor_type = "LUCKYWARE"
+
+    strings:
+        $ps_hidden = /powershell.*-WindowStyle\s+Hidden/ nocase
+        $ps_bypass = "-ExecutionPolicy Bypass" nocase
+        $iwr = /iwr\s+-Uri|Invoke-WebRequest/ nocase
+        $cmd_flags = /cmd\.exe\s+\/[bc]\s+\/[bc]/ nocase
+        $lucky_param = /(bl|id)=/ nocase
+
+    condition:
+        ($ps_hidden and $iwr) or 
+        ($cmd_flags and $iwr) or
+        ($ps_hidden and $lucky_param)
+}
+
 rule Luckyware_ImGui_Infection
 {
     meta:
