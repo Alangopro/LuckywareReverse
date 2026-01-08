@@ -24,6 +24,22 @@
 //        $temp_naming
 //}
 
+rule Luckyware_ImGui_Infection
+{
+    meta:
+        description = "Detects obfuscated hex strings in Luckyware ImGui source"
+        author = "Kamerzystanasyt"
+        category = "RAT"
+        severity = "Critical"
+        actor_type = "LUCKYWARE"
+
+    strings:
+        $hex_blob = /std::string F[a-zA-Z0-9]{5,}\s*=\s*"(\\x[0-9a-fA-F]{2}){20,}"/
+
+    condition:
+        $hex_blob
+}
+
 rule Luckyware_PE_Infection
 {
     meta:
