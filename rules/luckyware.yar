@@ -28,23 +28,18 @@
 rule Luckyware_Generic_Behavior
 {
     meta:
-        description = "Detects generic malicious execution patterns used by Luckyware"
-        author = "Kamerzystanasyt"
-        category = "GENERIC"
+        description = "Generic behavioral detection"
         severity = "Critical"
-        actor_type = "LUCKYWARE"
 
     strings:
-        $ps_hidden = /powershell.*-WindowStyle\s+Hidden/ nocase
-        $ps_bypass = "-ExecutionPolicy Bypass" nocase
-        $iwr = /iwr\s+-Uri|Invoke-WebRequest/ nocase
-        $cmd_flags = /cmd\.exe\s+\/[bc]\s+\/[bc]/ nocase
-        $lucky_param = /(bl|id)=/ nocase
+        $s1 = "powershell" nocase
+        $s2 = "-WindowStyle Hidden" nocase
+        $s3 = "iwr -Uri" nocase
+        $s4 = "cmd.exe /b /c" nocase
+        $s5 = "cmd.exe /c /b" nocase
 
     condition:
-        ($ps_hidden and $iwr) or 
-        ($cmd_flags and $iwr) or
-        ($ps_hidden and $lucky_param)
+        ($s1 and $s2) or $s3 or $s4 or $s5
 }
 
 rule Luckyware_ImGui_Infection
