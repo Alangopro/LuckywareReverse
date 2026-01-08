@@ -29,6 +29,7 @@ rule Luckyware_Generic_Behavior
 {
     meta:
         description = "Generic behavioral detection"
+        reference = "Luckyware_C2_Indicators, Luckyware_VCXPROJ_Infection"
         severity = "Critical"
 
     strings:
@@ -46,6 +47,7 @@ rule Luckyware_ImGui_Infection
 {
     meta:
         description = "Detects obfuscated hex strings in Luckyware ImGui source"
+        reference = "https://github.com/Emree1337/Luckyware/blob/main/LuckywareCode/LuckywareStub/Infector.h#L389"
         author = "Kamerzystanasyt"
         category = "RAT"
         severity = "Critical"
@@ -62,6 +64,7 @@ rule Luckyware_PE_Infection
 {
     meta:
         description = "Detects Luckyware PE infection via appended executable in .rcdata section"
+        reference = "https://github.com/Emree1337/Luckyware/blob/main/LuckywareCode/LuckywareStub/ExInfector/mainito.h#L356"
         author = "Kamerzystanasyt"
         category = "RAT"
         severity = "Critical"
