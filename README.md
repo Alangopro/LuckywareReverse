@@ -1,5 +1,9 @@
 <img width="272" height="704" alt="Gemini_Generated_Image_puupfvpuupfvpuup" src="https://github.com/user-attachments/assets/09c356a6-b8aa-4107-a0e6-21331fa54b8a" />
 <img width="472" height="590" alt="image" src="https://github.com/user-attachments/assets/ad431362-acfa-4a7f-b1e1-badb9a0ebbdb" />
+<img width="472" height="590" alt="image" src="https://github.com/user-attachments/assets/417a75ff-b6f3-4a99-a8da-5e47c186bbd7" />
+
+<sub>first hit!</sub>
+
 
 # LuckywareReverse
 
