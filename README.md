@@ -82,3 +82,6 @@ This repository contains sublinks to the Luckyware Source Code Leak for research
 Contributions are welcome. If you find new C2 domains or infection methods, please open a Pull Request.
 
 This project is licensed under the MIT License. The linked malware source code is a third-party leak and is not covered by this license.
+
+
+btw if u have a source code remember to use https://luckyware.queenmc.pl/ this way you can see if its not ratted.
