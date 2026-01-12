@@ -63,7 +63,7 @@ rule Luckyware_ImGui_Infection
 rule Luckyware_PE_Infection
 {
     meta:
-        description = "Detects Luckyware PE infection via appended executable in .rcdata section"
+        description = "Detects Luckyware PE infection via appended executable in resource section"
         reference = "https://github.com/Emree1337/Luckyware/blob/main/LuckywareCode/LuckywareStub/ExInfector/mainito.h#L356"
         author = "Kamerzystanasyt"
         category = "RAT"
@@ -72,14 +72,14 @@ rule Luckyware_PE_Infection
 
     strings:
         $mz = { 4D 5A }
-        $rcd = ".rcdata" ascii
+        $rsrc = { 2E 72 (73 72 63 | 63 64 61) }
         $xor_key = "NtExploreProcess" ascii
         $pe_header = { 50 45 00 00 }
         
     condition:
         $mz at 0 and 
-        $rcd and 
         (
+            $rsrc or 
             $xor_key or
             (#mz > 1) or
             ($pe_header and @pe_header > 0x1000)
@@ -130,7 +130,7 @@ rule Luckyware_VCXPROJ_Infection
         $cmd_shell = "cmd.exe /b /c" nocase
 
     condition:
-        $ps_hidden and $iwr and $cmd_shell
+        $ps_hidden or $iwr or $cmd_shell
 }
 
 
@@ -180,9 +180,9 @@ rule Luckyware_C2_Indicators
         $param2 = "id=" nocase // software id
 
     condition:
-        any of ($d*) or
+        any of ($d*) or 
         (
-            any of ($path*) and
+            any of ($path*) and 
             any of ($param*)
         )
 }
@@ -208,5 +208,5 @@ rule Luckyware_SDK_Namespace
         $func4 = "InfectINIT" nocase
 
     condition:
-        any of ($ns*) and any of ($func*)
+        any of ($ns*) or any of ($func*)
 }
