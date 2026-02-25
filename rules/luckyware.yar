@@ -188,6 +188,24 @@ rule Luckyware_C2_Indicators
 }
 
 
+rule Luckyware_Registry_Persistence
+{
+    meta:
+        description = "Detects registry edits by Luckyware, for example notepad.exe or possibly WinRar"
+        author = "Kamerzystanasyt"
+        category = "RAT"
+        severity = "Critical"
+        actor_type = "LUCKYWARE"
+        reference = "Found it myself with bitdefender."
+    strings:
+        $s1 = "cmd.exe /b /c" nocase
+        $s2 = "powershell -WindowStyle Hidden" nocase
+        $s3 = "iwr -Uri" nocase
+        $s4 = "-OutFile $env:APPDATA\\" nocase
+    condition:
+        all of ($s*)
+}
+
 rule Luckyware_SDK_Namespace
 {
     meta:
