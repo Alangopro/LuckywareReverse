@@ -2,23 +2,23 @@
 <img width="472" height="590" alt="image" src="https://github.com/user-attachments/assets/ad431362-acfa-4a7f-b1e1-badb9a0ebbdb" />
 <img width="472" height="590" alt="image" src="https://github.com/user-attachments/assets/417a75ff-b6f3-4a99-a8da-5e47c186bbd7" />
 
-<sub>first hit!</sub>
+<sub>(this probably gonna be rewritten soon)</sub>
 
 
 # LuckywareReverse
 An toolkit designed to detect, flag, and remove Luckyware infections across binaries, source codes, and other layers.
 
-![Python](https://img.shields.io/badge/Python-3.12%2B-blue?logo=python&logoColor=white&style=for-the-badge)
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)
-![Code size](https://img.shields.io/github/languages/code-size/Alangopro/LuckywareReverse?style=for-the-badge)
+![Python](https://img.shields.io/badge/Python-3.12%2B-%23000000?logo=python&logoColor=pink&labelColor=000000&color=000000&style=for-the-badge)
+![License: MIT](https://img.shields.io/badge/License-MIT-%23000000.svg?logo=spdx&logoColor=pink&labelColor=000000&color=000000&style=for-the-badge)
+![Code size](https://img.shields.io/github/languages/code-size/Alangopro/LuckywareReverse?logo=github&labelColor=000000&logoColor=pink&color=000000&style=for-the-badge)
 
-![GitHub stars](https://img.shields.io/github/stars/Alangopro/LuckywareReverse?style=for-the-badge)
-![GitHub forks](https://img.shields.io/github/forks/Alangopro/LuckywareReverse?style=for-the-badge)
-![GitHub issues](https://img.shields.io/github/issues/Alangopro/LuckywareReverse?style=for-the-badge)
+![GitHub stars](https://img.shields.io/github/stars/Alangopro/LuckywareReverse?logo=github&logoColor=pink&labelColor=000000&color=000000&style=for-the-badge)
+![GitHub forks](https://img.shields.io/github/forks/Alangopro/LuckywareReverse?logo=github&logoColor=pink&labelColor=000000&color=000000&style=for-the-badge)
+![GitHub issues](https://img.shields.io/github/issues/Alangopro/LuckywareReverse?logo=github&logoColor=pink&labelColor=000000&color=000000&style=for-the-badge)
 
-[![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white)](https://dc.queenmc.pl/)
-[![YouTube](https://img.shields.io/badge/YouTube-%23FF0000.svg?style=for-the-badge&logo=YouTube&logoColor=white)](https://feds.lol/Kamerzystanasyt)
-[![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://feds.lol/Kamerzystanasyt)
+[![Discord](https://img.shields.io/badge/Discord-%23000000.svg?style=for-the-badge&logo=discord&logoColor=pink)](https://dc.queenmc.pl/)
+[![YouTube](https://img.shields.io/badge/YouTube-%23000000.svg?style=for-the-badge&logo=YouTube&logoColor=pink)](https://feds.lol/Kamerzystanasyt)
+[![Telegram](https://img.shields.io/badge/Telegram-%23000000?style=for-the-badge&logo=telegram&logoColor=pink)](https://feds.lol/Kamerzystanasyt)
 
 
 ---
