@@ -5,6 +5,7 @@
 <sub>(this probably gonna be rewritten soon)</sub>
 
 
+
 # LuckywareReverse
 An toolkit designed to detect, flag, and remove Luckyware infections across binaries, source codes, and other layers.
 
@@ -90,3 +91,5 @@ This project is licensed under the MIT License. The linked malware source code i
 
 
 btw if u have a source code remember to use https://luckyware.queenmc.pl/ this way you can see if its not ratted.
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Alangopro/LuckywareReverse&type=date&legend=top-left)](https://www.star-history.com/?spm=a2c6h.12873639.article-detail.7.7b9d7fabjNxTRk#Alangopro/LuckywareReverse&type=date&legend=top-left)
